@@ -84,15 +84,17 @@ const App = () => {
     }
   }
 
-  const getBoops = async () => {
-    try{
-      const {ethereum} = window;
-      let count = await boopPortalContract.getTotalBoops();
-      return count;
-    } catch (error) {
-      console.log (error)
-    }
-  }
+  //////honestly not sure if I need this or not 
+  
+  // const getBoops = async () => {
+  //   try{
+  //     const {ethereum} = window;
+  //     let count = await boopPortalContract.getTotalBoops();
+  //     return count;
+  //   } catch (error) {
+  //     console.log (error)
+  //   }
+  // }
 
   const updateCounter = async () => {
     try {
@@ -106,7 +108,7 @@ const App = () => {
         console.log("testeeing testing helloo"); 
         let count = await boopPortalContract.getTotalBoops();
         setBoopCount(count.toNumber());
-        console.log("counter test = " , boopCount); 
+        // console.log("counter test = " , boopCount); 
        } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -130,19 +132,33 @@ const App = () => {
         <div className="bio">
           Hello! My name is Thomas and I am a third year computer science student. Log in with your metamask wallet to boop me through the blockchain network.
         </div>
-    
+
+        {currentAccount && (
         <button className="boopButton" onClick={boop}>
-          boop!
+          Boop!
         </button>
+        )}
+    
           {/*
         * If there is no currentAccount render this button
         */}
+
         {!currentAccount && (
+          
           <button className="boopButton" onClick={connectWallet}>
             Connect Wallet
           </button>
-          
+
         )}
+
+        {!currentAccount && (
+          <center>
+            <a href="https://metamask.io/download">don't have metamask?
+            </a>
+          </center>
+
+        )}
+        
         <div className ="bio">
           Total boop count = {boopCount} boops!
         </div>
