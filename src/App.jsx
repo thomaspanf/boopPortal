@@ -130,13 +130,19 @@ const App = () => {
         </div>
     
         <div className="bio">
-          Hello! My name is Thomas and I am a third year computer science student. Log in with your metamask wallet to boop me through the blockchain network.
+          Hello! My name is Thomas and I am a third year computer science student. Log in with your metamask wallet to interact with a smart contract on the ethereum network.
         </div>
 
         {currentAccount && (
         <button className="boopButton" onClick={boop}>
           Boop!
         </button>
+        )}
+
+           {currentAccount && (
+        <div className ="bio">
+          Total boop count = {boopCount} boops!
+        </div>
         )}
     
           {/*
@@ -159,9 +165,6 @@ const App = () => {
 
         )}
         
-        <div className ="bio">
-          Total boop count = {boopCount} boops!
-        </div>
       </div>
     </div>
     );
