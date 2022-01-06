@@ -10,6 +10,7 @@ const App = () => {
    */
   const contractAddress = "0x034895B37E18f7319c18ae755D3DaD8F1b310C89";
   const contractABI = abi.abi;
+  const [boopCount, setBoopCount] = useState(0)
   
   const checkIfWalletIsConnected = async () => {
     try {
@@ -73,7 +74,8 @@ const App = () => {
         console.log("Mined -- ", boopTxn.hash);
 
         count = await boopPortalContract.getTotalBoops();
-        console.log("Retrieved total boop count...", count.toNumber());
+        setBoopCount(count.toNumber());
+        console.log("Retrieved total boop count....", count.toNumber());
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -82,7 +84,39 @@ const App = () => {
     }
   }
 
+  const getBoops = async () => {
+    try{
+      const {ethereum} = window;
+      let count = await boopPortalContract.getTotalBoops();
+      return count;
+    } catch (error) {
+      console.log (error)
+    }
+  }
+
+  const updateCounter = async () => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const boopPortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+    
+        console.log("testeeing testing helloo"); 
+        let count = await boopPortalContract.getTotalBoops();
+        setBoopCount(count.toNumber());
+        console.log("counter test = " , boopCount); 
+       } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
+    updateCounter();
     checkIfWalletIsConnected();
   }, [])
   
@@ -100,7 +134,6 @@ const App = () => {
         <button className="boopButton" onClick={boop}>
           boop!
         </button>
-
           {/*
         * If there is no currentAccount render this button
         */}
@@ -108,7 +141,11 @@ const App = () => {
           <button className="boopButton" onClick={connectWallet}>
             Connect Wallet
           </button>
+          
         )}
+        <div className ="bio">
+          Total boop count = {boopCount} boops!
+        </div>
       </div>
     </div>
     );
